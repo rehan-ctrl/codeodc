@@ -29,7 +29,7 @@
 	<link rel="stylesheet" href="<?= base_url('application/views/admin/') ?>style.css">
 	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
 	<?php $sidebar='#9C27B0';$header='#ffc107';
-	$query=$this->db->query("SELECT * from admin_user where id=1");
+	$query=$this->db->query("SELECT * from admin_user where company_id=1");
 	$detail=$query->row();
 	if(!empty($detail->site_color)){$sidebar=$detail->site_color;}
 	if(!empty($detail->site_color_2)){$header=$detail->site_color_2;}

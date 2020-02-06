@@ -5,6 +5,9 @@
 		<ul class="sidebar-menu" data-widget="tree">
 			<li class="header">MAIN NAVIGATION</li>
 			<li class="<?php if($this->uri->segment(2)=='dashboard'){echo "active";} ?>"><a href="<?= base_url('admin/dashboard') ?>"> <i class="fa fa-dashboard"></i> <span>Dashboard</span> </a></li>
+			<?php if($this->session->userdata('user_login') == 1){ ?>
+			<li class="<?php if($this->uri->segment(2)=='company'){echo "active";} ?>"><a href="<?= base_url('admin/company') ?>"> <i class="fa fa-building-o"></i> <span>Company</span> </a></li>
+			<?php } ?>
 			<?php if($this->session->userdata('user_type') == 'Admin'){ ?>
 			<li class="<?php if($this->uri->segment(2)=='users'){echo "active";} ?>"><a href="<?= base_url('admin/users') ?>"><i class="fa fa-user"></i> <span>Users</span></a></li>
 			<li class="<?php if($this->uri->segment(2)=='referral'){echo "active";} ?>"><a href="<?= base_url('admin/referral') ?>"><i class="fa fa-users"></i> <span>Referral</span></a></li>

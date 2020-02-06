@@ -7,16 +7,16 @@ class Basic extends CI_Controller
 	}
 	public function index()
 	{
-		$query=$this->db->query("SELECT * from admin_user where id='1'");
+		$query=$this->db->query("SELECT * from admin_user where company_id='1'");
 		$data['admin']=$query->row();
-		$this->load->view('index', $data);
+		$this->load->view('admin/index', $data);
 	}
 	public function admin_login()
 	{
-		$query0=$this->db->query("SELECT * from admin_user where id='1'");
+		$query0=$this->db->query("SELECT * from admin_user where company_id='1'");
 		$details=$query0->row();
 		if($details->status!=0){
-			$query=$this->db->query("SELECT * from admin_user where id='1'");
+			$query=$this->db->query("SELECT * from admin_user where company_id='1'");
 			$data['admin']=$query->row();
 			$this->load->view('admin/index', $data);
 		}
@@ -41,6 +41,7 @@ class Basic extends CI_Controller
 			{
 				$this->session->set_userdata('user_login', $data->user_id);
 				$this->session->set_userdata('user_type', $data->user_type);
+				$this->session->set_userdata('user_company_id', $data->user_company_id);
 				redirect(base_url('admin/dashboard'));
 			}
 			else
@@ -58,7 +59,7 @@ class Basic extends CI_Controller
 	public function auth()
 	{
 		$key=$this->input->post('key');
-		$query=$this->db->query("SELECT * from admin_user where id=1");
+		$query=$this->db->query("SELECT * from admin_user where company_id=1");
 		$detail=$query->row();
 		if(empty($detail->key_code))
 		{
@@ -69,10 +70,12 @@ class Basic extends CI_Controller
 			$query1=$this->db->query("SELECT * from admin_user where key_code='$key'");
 			if($query1->num_rows()==1)
 			{
-				$this->db->query("UPDATE admin_user set key_code='', status=1 where id=1");
+				$data=$query1->row();
+				$this->db->query("UPDATE admin_user set key_code='', status=1 where company_id=1");
 				$this->session->set_userdata('user_login', '1');
 				$this->session->set_userdata('user_type', 'Admin');
-				redirect(base_url('admin/edit_user?user=1'));
+				$this->session->set_userdata('user_company_id', $data->company_id);
+				redirect(base_url('admin/dashboard'));
 			}
 			else
 			{
@@ -106,7 +109,7 @@ class Basic extends CI_Controller
 	public function set_key()
 	{
 		$key=$this->input->post('key');
-		$this->db->query("UPDATE admin_user set key_code='$key' where id=1");
+		$this->db->query("UPDATE admin_user set key_code='$key' where company_id=1");
 		$this->session->set_flashdata('msg', 'Key generated.');
 		$this->session->unset_userdata('generate_session');
 		redirect(base_url());
