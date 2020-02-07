@@ -6,7 +6,7 @@ class Admin extends CI_Controller
 		parent::__construct();
 		if(empty($this->session->userdata('user_login')))
 		{
-			redirect(base_url('admin'));
+			// redirect(base_url('admin'));
 		}
 	}
 	public function login()
@@ -1491,10 +1491,11 @@ class Admin extends CI_Controller
 	{
 		$companyid=$this->session->userdata('user_company_id');
 		$id=$this->session->userdata('user_login');
-		$query=$this->db->query("SELECT * from admin_user where company_id='$company_id'");
+		$query=$this->db->query("SELECT * from admin_user where company_id='$companyid'");
 		$data['admin']=$query->row();
-		$query=$this->db->query("SELECT * from users where user_id='$id' and company_id='$companyid'");
+		$query=$this->db->query("SELECT * from users where user_id='$id' and user_company_id='$companyid'");
 		$data['user']=$query->row();
+		// print_r($data);
 		$this->load->view('admin/my-profile', $data);
 	}
 	function edit_profile()
@@ -1526,7 +1527,7 @@ class Admin extends CI_Controller
 		{
 		$this->load->library('encrypt');
 		$epassword=$this->encrypt->encode($password);
-		$this->db->query("UPDATE users set password='$epassword' where user_id='$user_id' and lead_company_id='$companyid'");
+		$this->db->query("UPDATE users set password='$epassword' where user_id='$user_id' and user_company_id='$companyid'");
 		}
 		redirect(base_url('admin/my_profile'));
 	}

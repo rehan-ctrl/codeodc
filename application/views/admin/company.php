@@ -40,7 +40,7 @@
 												<td><?= $n ?>.</td>
 												<td><?= $user['company_name'] ?></td>
 												<td><?= $user['firstname'].' '.$user['lastname'] ?></td>
-												<td><?= $user['company_email'] ?></td>
+												<td width="20%"><?= $user['company_email'] ?></td>
 												<td><?= $user['phone_ext'].$user['phone_number'] ?></td>
 												<td><?= $user['key_code'] ?></td>
 												<td><?php if($user['status'] == 0){echo "InActive";}elseif($user['status']==1){echo "Active";}elseif($user['status']==2){echo "Disabled";} ?></td>

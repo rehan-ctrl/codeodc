@@ -7,23 +7,11 @@ class Basic extends CI_Controller
 	}
 	public function index()
 	{
-		$query=$this->db->query("SELECT * from admin_user where company_id='1'");
-		$data['admin']=$query->row();
-		$this->load->view('admin/index', $data);
+		$this->load->view('admin/index');
 	}
 	public function admin_login()
 	{
-		$query0=$this->db->query("SELECT * from admin_user where company_id='1'");
-		$details=$query0->row();
-		if($details->status!=0){
-			$query=$this->db->query("SELECT * from admin_user where company_id='1'");
-			$data['admin']=$query->row();
-			$this->load->view('admin/index', $data);
-		}
-		else
-		{
-			redirect(base_url());
-		}
+		$this->load->view('admin/index');
 	}
 	public function adminlogin()
 	{

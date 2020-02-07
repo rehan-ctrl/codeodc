@@ -31,6 +31,32 @@
 <script src="<?= base_url('application/views/admin/') ?>js/buttons.html5.min.js"></script>
 <script src="<?= base_url('application/views/admin/') ?>js/buttons.print.min.js"></script>
 <script type="text/javascript" src='<?= base_url('application/views/admin/') ?>ckeditor/ckeditor.js'></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.min.js"></script>
+<script>
+	$(document).ready(function () {
+    $(function(){
+  $(".btn").on("click",function(){
+ 
+    var notify = $.notify('<strong>Saving</strong> Do not close this page...', {
+      type: 'danger',
+      allow_dismiss: true,
+    });
+
+
+    notify('message', '<strong>Saving</strong> Page Data.');
+
+
+    setTimeout(function() {
+      notify('message', '<strong>Saving</strong> User Data.');
+    }, 500);
+
+   
+    
+    
+  });
+});
+});
+</script>
 <script>
 	$(document).ready(function() {
 		$('.example3').DataTable({

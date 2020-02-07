@@ -2,7 +2,8 @@
     <!-- Logo -->
     <a href="" class="logo">
         <?php
-        $query=$this->db->query("SELECT * from admin_user where company_id=1");
+        $companyid=$this->session->userdata('user_company_id');
+        $query=$this->db->query("SELECT * from admin_user where company_id='$companyid'");
         $admin=$query->row();
         $photo='';if(empty($admin->site_logo)){$photo=base_url('application/views/admin/images/cassixcrm-logo.png');}else{$photo=base_url('documents/').$admin->site_logo;} ?>
         <span class="logo-mini"><b><img src="<?= $photo ?>" height="40"></b></span>
