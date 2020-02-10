@@ -37,7 +37,7 @@
 												<div class="input-group-addon">
 													<i class="fa fa-suitcase"></i>
 												</div>
-												<input type="color" name="sidebar" value="<?php echo $admin->site_color; ?>" class="form-control" required>
+												<input type="color" name="sidebar" value="<?php if(!empty($admin->site_color)){echo $admin->site_color;}else{echo "#fff";} ?>" class="form-control" required>
 											</div>
 										</div>
 										<div class="col-sm-6 mb-5">
@@ -46,7 +46,7 @@
 												<div class="input-group-addon">
 													<i class="fa fa-suitcase"></i>
 												</div>
-												<input type="color" value="<?php echo $admin->site_color_2; ?>" name="header" class="form-control" required>
+												<input type="color" value="<?php if(!empty($admin->site_color_2)){echo $admin->site_color_2;}else{echo "#fff";} ?>" name="header" class="form-control" required>
 											</div>
 										</div>
 										<div class="clearfix"></div>

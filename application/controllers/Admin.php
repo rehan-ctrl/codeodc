@@ -6,7 +6,8 @@ class Admin extends CI_Controller
 		parent::__construct();
 		if(empty($this->session->userdata('user_login')))
 		{
-			// redirect(base_url('admin'));
+			// $this->session->set_flashdata('message', '');
+		redirect(base_url('admin'));
 		}
 	}
 	public function login()
@@ -104,6 +105,7 @@ class Admin extends CI_Controller
 		$referral_name=$this->input->post('referral_name', true);
 		$created=date('d-m-Y');
 		$this->db->insert('referral', array('referral_name'=>$referral_name, 'referral_company_id'=>$companyid, 'created'=> $created));
+		$this->session->set_flashdata('message', 'Referral added successfully.');
 		redirect(base_url('admin/referral'));
 	}
 	function edit_referral()
@@ -140,6 +142,7 @@ class Admin extends CI_Controller
 		$id=$this->input->post('id');
 		$referral_name=$this->input->post('referral_name', true);
 		$this->db->query("UPDATE referral set referral_name='$referral_name' where referral_id='$id' and referral_company_id='$companyid'");
+		$this->session->set_flashdata('message', 'Referral updated successfully');
 		redirect(base_url('admin/referral'));
 	}
 	function delete_referral()
@@ -147,6 +150,7 @@ class Admin extends CI_Controller
 		$companyid=$this->session->userdata('user_company_id');
 		$id=$this->uri->segment(3);
 		$this->db->query("DELETE from referral where referral_id='$id' and referral_company_id='$companyid'");
+		$this->session->set_flashdata('message', 'Referral deleted successfully');
 		redirect(base_url('admin/referral'));
 	}
 	public function company()
@@ -159,7 +163,8 @@ class Admin extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Company added successfully');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	function add_company()
@@ -170,7 +175,8 @@ class Admin extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	public function admin_add_company()
@@ -209,11 +215,13 @@ class Admin extends CI_Controller
 
 		$this->db->query("INSERT INTO `users`(`unique_id`, `user_type`, `firstname`, `lastname`, `company`, `country`, `state`, `street_address`, `street_address_2`, `city`, `zip`, `phone`, `email`, `password`, `created`, `country_code`, `landline_code`, `landline`, `user_is`, `user_company_id`) VALUES ('$unique_id','Admin','$firstname','$lastname','$company_name','$country','$state','$street_address','$street_address_2','$city','$postal_code','$phone','$email_address','$epassword','$created','$phone1','$landline1','$landline','1','$insert_id')");
 		
+		$this->session->set_flashdata('message', 'Company added successfully');
 		redirect(base_url('admin/company'));
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	public function disabled_company()
@@ -222,6 +230,7 @@ class Admin extends CI_Controller
 		$companyid=$this->session->userdata('user_company_id');
 		$id=$this->uri->segment(3);
 		$this->db->query("UPDATE admin_user set status=2 where company_id='$id'");
+		$this->session->set_flashdata('message', 'Company disabled successfully');
 		redirect(base_url('admin/company'));
 		}
 	}
@@ -231,6 +240,7 @@ class Admin extends CI_Controller
 		$companyid=$this->session->userdata('user_company_id');
 		$id=$this->uri->segment(3);
 		$this->db->query("UPDATE admin_user set status=1 where company_id='$id'");
+		$this->session->set_flashdata('message', 'Company active successfully');
 		redirect(base_url('admin/company'));
 		}
 	}
@@ -245,7 +255,8 @@ class Admin extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	public function admin_edit_company()
@@ -278,11 +289,13 @@ class Admin extends CI_Controller
 		$epassword=$this->encrypt->encode($password);
 		$this->db->query("UPDATE users set password='$epassword' where email='$email_address' and user_is=1");
 		}
+		$this->session->set_flashdata('message', 'Company updated successfully');
 		redirect(base_url('admin/company'));
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	public function delete_company()
@@ -291,11 +304,13 @@ class Admin extends CI_Controller
 		if($this->session->userdata('user_login') == 1){
 			$id=$this->uri->segment(3);
 			$this->db->query("DELETE from admin_user where company_id='$id'");
-			redirect(base_url('admin/company'));
+			$this->session->set_flashdata('message', 'Company deleted successfully');
+		redirect(base_url('admin/company'));
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	public function users()
@@ -308,7 +323,8 @@ class Admin extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	function add_user()
@@ -319,7 +335,8 @@ class Admin extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	public function admin_add_user()
@@ -350,11 +367,13 @@ class Admin extends CI_Controller
 		$created=date('d-m-Y');
 
 		$this->db->query("INSERT INTO `users`(`unique_id`, `user_type`, `firstname`, `lastname`, `company`, `country`, `state`, `street_address`, `street_address_2`, `city`, `zip`, `phone`, `email`, `password`, `created`, `country_code`, `landline_code`, `landline`, `user_company_id`) VALUES ('$unique_id','$user_type','$firstname','$lastname','$company_name','$country','$state','$street_address','$street_address_2','$city','$postal_code','$phone','$email_address','$epassword','$created','$phone1','$landline1','$landline','$user_company_id')");
+		$this->session->set_flashdata('message', 'User added successfully');
 		redirect(base_url('admin/users'));
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	public function view_user()
@@ -368,7 +387,8 @@ class Admin extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	public function edit_user()
@@ -382,7 +402,8 @@ class Admin extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	public function admin_edit_user()
@@ -429,11 +450,13 @@ class Admin extends CI_Controller
 		$epassword=$this->encrypt->encode($password);
 		$this->db->query("UPDATE users set password='$epassword' where user_id='$user_id' and user_company_id='$companyid'");
 		}
+		$this->session->set_flashdata('message', 'User updated successfully');
 		redirect(base_url('admin/users'));
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	function delete_user()
@@ -445,11 +468,13 @@ class Admin extends CI_Controller
 		{
 		$this->db->query("DELETE from users where user_id='$id' and user_company_id='$companyid' and user_is!=1");
 		}
+		$this->session->set_flashdata('message', 'User deleted successfully');
 		redirect(base_url('admin/users'));
 		}
 		else
 		{
-			redirect(base_url('admin/dashboard'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/dashboard'));
 		}
 	}
 	function leads()
@@ -540,7 +565,8 @@ class Admin extends CI_Controller
 		);
 		if($db_query=$this->db->insert('leads', $data))
 		{
-			redirect(base_url('admin/leads'));
+			$this->session->set_flashdata('message', 'Lead added successfully');
+		redirect(base_url('admin/leads'));
 		}
 		else{echo "Some error occured.";}
 	}
@@ -621,7 +647,8 @@ class Admin extends CI_Controller
 		);
 		if($this->db->set($data)->where(array('lead_id' => $id, 'lead_company_id' => $companyid))->update('leads'))
 		{
-			redirect(base_url('admin/leads'));
+			$this->session->set_flashdata('message', 'Lead updated successfully');
+		redirect(base_url('admin/leads'));
 		}
 		else{echo "Some error occured.";}
 	}
@@ -631,11 +658,13 @@ class Admin extends CI_Controller
 		if($this->session->userdata('user_type') == 'Admin'){
 		$id=$this->uri->segment(3);
 		$this->db->query("DELETE from leads where lead_id='$id' and lead_company_id='$companyid'");
+		$this->session->set_flashdata('message', 'Lead deleted successfully');
 		redirect(base_url('admin/leads'));
 		}
 		else
 		{
-			redirect(base_url('admin/leads'));
+			$this->session->set_flashdata('message', 'Permission denied');
+		redirect(base_url('admin/leads'));
 		}
 	}
 	function assign_to()
@@ -874,6 +903,7 @@ class Admin extends CI_Controller
 			$this->db->set($data)->where(array('lead_id' => $id, 'lead_company_id' => $companyid))->update('leads');
 		}
 		
+		$this->session->set_flashdata('message', 'Lead updated');
 		redirect(base_url('admin/cool_leads'));
 	}
 	function warm_leads()
@@ -1117,6 +1147,7 @@ class Admin extends CI_Controller
 			);
 			$this->db->set($data)->where(array('lead_id' => $id, 'lead_company_id' => $companyid))->update('leads');
 		}
+		$this->session->set_flashdata('message', 'Lead updated');
 		redirect(base_url('admin/warm_leads'));
 	}
 	function hot_leads()
@@ -1364,6 +1395,7 @@ class Admin extends CI_Controller
 			);
 			$this->db->set($data)->where(array('lead_id' => $id, 'lead_company_id' => $companyid))->update('leads');
 		}
+		$this->session->set_flashdata('message', 'Lead updated');
 		redirect(base_url('admin/hot_leads'));
 	}
 	function close_leads()
@@ -1529,12 +1561,14 @@ class Admin extends CI_Controller
 		$epassword=$this->encrypt->encode($password);
 		$this->db->query("UPDATE users set password='$epassword' where user_id='$user_id' and user_company_id='$companyid'");
 		}
+		$this->session->set_flashdata('message', 'Lead updated');
 		redirect(base_url('admin/my_profile'));
 	}
 	function admin_logout()
 	{
 		$this->session->unset_userdata('user_login');
 		$this->session->unset_userdata('user_type');
+		$this->session->set_flashdata('message', 'Logout');
 		redirect(base_url('admin'));
 	}
 	public function dormat_leads()
@@ -1733,6 +1767,7 @@ class Admin extends CI_Controller
 		'follow_up_time' => $follow_up_time,
 		);
 		$this->db->set($data)->where(array('lead_id' => $id, 'lead_company_id' => $companyid))->update('leads');
+		$this->session->set_flashdata('message', 'Lead updated');
 		redirect(base_url('admin/dormat_leads'));
 	}
 }
